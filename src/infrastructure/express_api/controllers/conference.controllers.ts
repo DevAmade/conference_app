@@ -80,3 +80,20 @@ export function changeDates(container: AwilixContainer) {
         }
     }
 }
+
+export function bookSeat(container: AwilixContainer) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+    
+            await container.resolve('bookSeat').execute({
+                user: req.user,
+                conferenceId: id,
+            });
+    
+            return res.jsonSuccess({ message: 'The reservation has been successful' }, 201);
+        } catch (error) {
+            next(error);
+        }
+    }
+}

@@ -20,6 +20,7 @@ import { CurrentDateGenerator } from '../../../core/adapters/current-date-genera
 import { IDGenerator } from '../../../core/ports/id-generator.interface';
 import { DateGenerator } from '../../../core/ports/date-generator.interface';
 import { Mailer } from '../../../core/ports/mailer.interface';
+import { BookSeat } from '../../../conference/usecases/book-seat';
 
 const container = createContainer();
 
@@ -43,6 +44,7 @@ container.register({
     organizeConference: asValue(new OrganizeConference(conferenceRepository, idGenerator, dateGenerator)),
     changeSeats: asValue(new ChangeSeats(conferenceRepository)),
     changeDates: asValue(new ChangeDates(conferenceRepository, dateGenerator, bookingRepository, mailer, userRepository)),
+    bookSeat: asValue(new BookSeat(conferenceRepository, bookingRepository)),
     authenticator: asValue(new BasicAuthenticator(userRepository))
 });
 
