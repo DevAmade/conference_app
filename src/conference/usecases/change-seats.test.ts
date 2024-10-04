@@ -1,7 +1,9 @@
 import { testUser } from "../../user/tests/user-seed";
 
 import { InMemoryConferenceRepository } from "../adapters/in-memory-conference-repository";
+import { InMemoryBookingRepository } from "../adapters/in-memory-booking-repository";
 import { testConference } from "../tests/conference-seed";
+import { Booking } from "../entities/booking.entity";
 
 import { ChangeSeats } from "./change-seats";
 
@@ -13,12 +15,14 @@ describe('Feature: Changing the number of seats', () => {
     }
     
     let repository: InMemoryConferenceRepository;
+    let bookingRepository: InMemoryBookingRepository;
     let useCase: ChangeSeats;
 
     beforeEach(async () => {
         repository = new InMemoryConferenceRepository();
         await repository.create(testConference.conference1);
-        useCase = new ChangeSeats(repository);
+        bookingRepository = new InMemoryBookingRepository();
+        useCase = new ChangeSeats(repository, bookingRepository);
     })
 
     describe('Scenario: Happy path', () => {
@@ -78,6 +82,30 @@ describe('Feature: Changing the number of seats', () => {
                 conferenceId: testConference.conference1.props.id,
                 nbrSeat: 19
             })).rejects.toThrow('The conference must have a maximum of 1000 seats and minimum of 20 seats');
+
+            await expectSeatsUnchanged();
+        })
+    })
+
+    describe('Scenario: The number of seats is less than the number of reservations', () => {
+        it('Should fail', async () => {
+            const nbrBooking = 30;
+            const newNbrSeat = 25;
+
+            for(let i = 0; i < nbrBooking; i++) {
+                const newBooking = new Booking({
+                    userId: `user-id-${i}`,
+                    conferenceId: testConference.conference1.props.id
+                });
+
+                await bookingRepository.create(newBooking);
+            }
+
+            await expect(useCase.execute({
+                user: testUser.johnDoe,
+                conferenceId: testConference.conference1.props.id,
+                nbrSeat: newNbrSeat
+            })).rejects.toThrow('The number of seats is less than the number of reservations');
 
             await expectSeatsUnchanged();
         })

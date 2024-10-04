@@ -42,7 +42,7 @@ const mailer = container.resolve('mailer') as Mailer;
 
 container.register({
     organizeConference: asValue(new OrganizeConference(conferenceRepository, idGenerator, dateGenerator)),
-    changeSeats: asValue(new ChangeSeats(conferenceRepository)),
+    changeSeats: asValue(new ChangeSeats(conferenceRepository, bookingRepository)),
     changeDates: asValue(new ChangeDates(conferenceRepository, dateGenerator, bookingRepository, mailer, userRepository)),
     bookSeat: asValue(new BookSeat(conferenceRepository, bookingRepository)),
     authenticator: asValue(new BasicAuthenticator(userRepository))
