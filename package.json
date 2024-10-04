@@ -1,0 +1,30 @@
+{
+  "name": "conference_app",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "scripts": {
+    "test": "jest",
+    "test:e2e": "jest --config jest.config.e2e.ts",
+    "test:int": "jest --config jest.config.int.ts",
+    "start": "nodemon src/infrastructure/express_api/server.ts"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/jest": "^29.5.13",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^10.0.0",
+    "awilix": "^11.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "date-fns": "^4.1.0",
+    "express": "^4.21.0",
+    "jest": "^29.7.0",
+    "mongoose": "^8.7.0",
+    "nodemon": "^3.1.7",
+    "supertest": "^7.0.0",
+    "testcontainers": "^10.13.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.6.2",
+    "uuid": "^10.0.0"
+  }
+}
