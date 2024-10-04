@@ -11,7 +11,7 @@ import { MongoConference } from '../../../conference/adapters/mongo/mongo-confer
 
 import { MongoUserRepository } from '../../../user/adapters/mongo/mongo-user-repository';
 import { MongoUser } from '../../../user/adapters/mongo/mongo-user';
-import { BasicAuthenticator } from '../../../user/services/basic-authenticator';
+import { JwtAuthenticator } from '../../../user/services/jwt-authenticator';
 import { UserRepository } from '../../../user/ports/user-repository.interface';
 
 import { InMemoryMailer } from '../../../core/adapters/in-memory-mailer';
@@ -45,7 +45,7 @@ container.register({
     changeSeats: asValue(new ChangeSeats(conferenceRepository, bookingRepository)),
     changeDates: asValue(new ChangeDates(conferenceRepository, dateGenerator, bookingRepository, mailer, userRepository)),
     bookSeat: asValue(new BookSeat(conferenceRepository, bookingRepository)),
-    authenticator: asValue(new BasicAuthenticator(userRepository))
+    authenticator: asValue(new JwtAuthenticator(userRepository))
 });
 
 export default container;
