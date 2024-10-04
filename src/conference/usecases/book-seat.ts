@@ -23,7 +23,7 @@ export class BookSeat implements Executable<RequestBookSeat, ResponseBookSeat> {
         private readonly bookingRepository: BookingRepository
     ) {}
     
-    async execute({ user , conferenceId }): Promise<void> {
+    async execute({ user, conferenceId }): Promise<void> {
         const conference = await this.repository.findById(conferenceId);
         
         if(!conference) {

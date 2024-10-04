@@ -70,6 +70,15 @@ describe('MongoConferenceRepository', () => {
         })
     })
 
+    describe('Scenario: Delete a conference', () => {
+        it('Should delete a conference', async () => {
+            await repository.delete(testConference.conference1.props.id);
+            const fetchedConference = await repository.findById(testConference.conference1.props.id);
+
+            expect(fetchedConference).toBeNull();
+        })
+    })
+
     describe('Scenario: findById', () => {
         it('Should find the conference corresponding to the id', async () => {
             const conference = await repository.findById(testConference.conference1.props.id);

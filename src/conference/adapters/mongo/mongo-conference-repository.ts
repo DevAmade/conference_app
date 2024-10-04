@@ -42,6 +42,10 @@ export class MongoConferenceRepository implements ConferenceRepository {
         await fetchedConference.updateOne(this.mapper.toPersistance(conference));
     }
 
+    async delete(conferenceId: string): Promise<void> {
+        await this.model.deleteOne({ _id: conferenceId });
+    }
+
     async create(conference: Conference): Promise<void> {
         const record = this.mapper.toPersistance(conference);
 

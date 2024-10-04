@@ -3,6 +3,8 @@ import { createContainer, asClass, asValue } from 'awilix';
 import { OrganizeConference } from '../../../conference/usecases/organize-conference';
 import { ChangeSeats } from '../../../conference/usecases/change-seats';
 import { ChangeDates } from '../../../conference/usecases/change-dates';
+import { BookSeat } from '../../../conference/usecases/book-seat';
+import { CancelConference } from '../../../conference/usecases/cancel-conference';
 import { ConferenceRepository } from '../../../conference/ports/conference-repository.interface';
 import { BookingRepository } from '../../../conference/ports/booking-repository.interface';
 import { InMemoryBookingRepository } from '../../../conference/adapters/in-memory-booking-repository';
@@ -20,7 +22,6 @@ import { CurrentDateGenerator } from '../../../core/adapters/current-date-genera
 import { IDGenerator } from '../../../core/ports/id-generator.interface';
 import { DateGenerator } from '../../../core/ports/date-generator.interface';
 import { Mailer } from '../../../core/ports/mailer.interface';
-import { BookSeat } from '../../../conference/usecases/book-seat';
 
 const container = createContainer();
 
@@ -45,6 +46,7 @@ container.register({
     changeSeats: asValue(new ChangeSeats(conferenceRepository, bookingRepository)),
     changeDates: asValue(new ChangeDates(conferenceRepository, dateGenerator, bookingRepository, mailer, userRepository)),
     bookSeat: asValue(new BookSeat(conferenceRepository, bookingRepository)),
+    cancelConference: asValue(new CancelConference(conferenceRepository, bookingRepository)),
     authenticator: asValue(new JwtAuthenticator(userRepository))
 });
 

@@ -97,3 +97,20 @@ export function bookSeat(container: AwilixContainer) {
         }
     }
 }
+
+export function cancelConference(container: AwilixContainer) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+    
+            await container.resolve('cancelConference').execute({
+                user: req.user,
+                conferenceId: id,
+            });
+    
+            return res.jsonSuccess({ message: 'The conference has been deleted' }, 204);
+        } catch (error) {
+            next(error);
+        }
+    }
+}

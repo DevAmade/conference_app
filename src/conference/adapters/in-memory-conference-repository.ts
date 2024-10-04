@@ -9,6 +9,11 @@ export class InMemoryConferenceRepository implements ConferenceRepository {
         this.database.push(conference);
     }
 
+    public async delete(conferenceId: string): Promise<void> {
+        const index = this.database.findIndex(conf => conf.props.id === conferenceId);
+        this.database.splice(index, 1);
+    }
+
     public async findById(id: string): Promise<Conference | null> {
         const conference = this.database.find(conf => conf.props.id === id);
         
